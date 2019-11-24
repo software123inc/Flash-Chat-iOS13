@@ -51,7 +51,7 @@ import UIKit
     private var typingStopped: Bool = false
     private var typingOver: Bool = true
     private var stoppedSubstring: String?
-    private var attributes: [NSAttributedStringKey: Any]?
+    private var attributes: [NSAttributedString.Key: Any]?
     private var currentDispatchID: Int = 320
     private let dispatchSerialQ = DispatchQueue(label: "CLTypingLableQueue")
     /*
@@ -134,9 +134,10 @@ import UIKit
     // MARK: -
     // MARK: Set Text Typing Recursive Loop
     
-    private func setTextWithTypingAnimation(_ typedText: String, _ attributes: Dictionary<NSAttributedStringKey, Any>?, _ charInterval: TimeInterval, _ initial: Bool, _ dispatchID: Int) {
+    private func setTextWithTypingAnimation(_ typedText: String, _ attributes: Dictionary<NSAttributedString.Key, Any>?, _ charInterval: TimeInterval, _ initial: Bool, _ dispatchID: Int) {
         
-        guard typedText.characters.count > 0 && currentDispatchID == dispatchID else {
+         guard !typedText.isEmpty && currentDispatchID == dispatchID
+            else {
             typingOver = true
             typingStopped = false
             return
@@ -151,7 +152,7 @@ import UIKit
             super.text = ""
         }
         
-        let firstCharIndex = typedText.characters.index(typedText.startIndex, offsetBy: 1)
+        let firstCharIndex = typedText.index(typedText.startIndex, offsetBy: 1)
         
         DispatchQueue.main.async {
             if let attributes = attributes {
